@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { Upload, FileText, X, CheckCircle2, Loader2, Ban } from "lucide-react";
 import { toast } from "sonner";
 import { useUploadDocument } from "@/lib/hooks/use-documents";
-import { ApiError } from "@/lib/api";
+import { ApiError, API_URL } from "@/lib/api";
 import { formatBytes, cn } from "@/lib/utils";
 
 type UploadStatus =
@@ -82,12 +82,17 @@ export function UploadDropzone({ onDone }: { onDone?: () => void }) {
           patch(state.id, { status: "cancelled" });
           return;
         }
-        // Truly can't reach the API — fall back to the offline demo flow.
+        // Can't reach the API at all — backend down/asleep, wrong API URL, or
+        // a blocked CORS preflight. Report it honestly instead of faking a
+        // "done": the fake success made uploads vanish because nothing was
+        // ever persisted, and hid the real connectivity problem.
         if (e instanceof ApiError && e.code === "NETWORK") {
-          patch(state.id, { status: "done", progress: 100 });
-          toast.message("Backend not connected — using demo mode", {
-            description:
-              "Start the API with `uvicorn app.main:app` to persist uploads.",
+          patch(state.id, {
+            status: "failed",
+            error: "Couldn't reach the API",
+          });
+          toast.error("Can't reach the backend", {
+            description: `The upload never reached ${API_URL}. Make sure the API is awake and that NEXT_PUBLIC_API_URL and CORS_ORIGINS are set correctly.`,
           });
           return;
         }
