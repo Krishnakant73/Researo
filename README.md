@@ -12,7 +12,7 @@
 
 <p align="center">
 
- <img width="540" height="304" alt="Evidence-First AI Research" src="https://github.com/user-attachments/assets/623e6717-89dd-4889-aed8-ed188e3c2ee9" />
+<img width="540" height="304" alt="Evidence-First AI Research" src="https://github.com/user-attachments/assets/a397bc9e-a835-4dfd-975d-7cd7d4c35673" />
 
 
 </p>
@@ -40,7 +40,7 @@
 
 ### 🎥 Demo Video
 
-> https://github.com/user-attachments/assets/9929235b-4902-4c40-a0a9-316f02716ea5
+> https://github.com/user-attachments/assets/91f611a7-0ba5-4f2a-9cc1-d88330a227e9
 
 
 
