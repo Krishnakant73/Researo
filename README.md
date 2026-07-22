@@ -25,16 +25,30 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=for-the-badge&logo=fastapi)]
 [![LangGraph](https://img.shields.io/badge/LangGraph-Multi--Agent-orange?style=for-the-badge)]
 [![OpenRouter](https://img.shields.io/badge/OpenRouter-AI_Gateway-purple?style=for-the-badge)]
-[![Railway](https://img.shields.io/badge/Hosted_on-Railway-0B0D0E?style=for-the-badge&logo=railway)]
+[![Frontend on Vercel](https://img.shields.io/badge/Frontend-Vercel-000000?style=for-the-badge&logo=vercel)](https://researo.vercel.app)
+[![Backend on Render](https://img.shields.io/badge/Backend-Render-46E3B7?style=for-the-badge&logo=render)](https://researo.onrender.com)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)]
 
 ---
 
 ### 🚀 Live Demo
 
-**🌐 Live Application**
+**🌐 Live Application (Frontend — Vercel):** https://researo.vercel.app
 
-> https://YOUR-RAILWAY-URL.up.railway.app
+**⚙️ Backend API (Render):** https://researo.onrender.com/api/v1/health
+
+[![Open Live App](https://img.shields.io/badge/▶_Open-Live_App-000000?style=for-the-badge&logo=vercel)](https://researo.vercel.app)
+[![Wake Backend](https://img.shields.io/badge/⚙_Wake-Backend_API-46E3B7?style=for-the-badge&logo=render)](https://researo.onrender.com/api/v1/health)
+
+> ⏳ **Please read before opening the demo.** The backend is hosted on Render's
+> **free tier**, which puts the service to sleep after inactivity.
+>
+> 1. **Open the "Wake Backend API" link first** and **wait ~50–60 seconds** for
+>    it to spin up. When it's ready you'll see `{"success":true,"status":"ok"}`.
+> 2. **Then open the "Live App" (Vercel) link.**
+>
+> If you open the frontend before the backend is awake, the first requests may
+> time out — just refresh once Render is up.
 
 ---
 
@@ -709,9 +723,8 @@ Evidence-backed Report
 Researo/
 │
 ├── apps/
-│   ├── web/                     # Next.js 15 frontend
+│   ├── web/                     # Next.js 15 frontend (deployed on Vercel)
 │   │   ├── Dockerfile
-│   │   ├── railway.json
 │   │   ├── next.config.ts       # output: "standalone"
 │   │   └── src/
 │   │       ├── app/(app)/       # routes: dashboard, research, search, documents,
@@ -723,9 +736,8 @@ Researo/
 │   │           ├── types.ts
 │   │           └── hooks/       # use-documents, use-research, use-search, use-settings…
 │   │
-│   └── api/                     # FastAPI backend
+│   └── api/                     # FastAPI backend (deployed on Render)
 │       ├── Dockerfile
-│       ├── railway.json
 │       ├── requirements.txt / requirements-optional.txt
 │       └── app/
 │           ├── agents/          # LangGraph pipeline, prompts, schemas
@@ -808,31 +820,31 @@ Ready for Research
 
 # ☁ Deployment Architecture
 
-The entire prototype is deployed using Railway.
+The prototype is deployed across two platforms: the **Next.js frontend on
+Vercel** and the **FastAPI backend on Render** (free tier).
 
 ```text
-                 Railway Cloud
-
-      ┌──────────────────────────────┐
-      │        Next.js Frontend      │
-      └──────────────┬───────────────┘
-                     │
-      ┌──────────────▼───────────────┐
-      │        FastAPI Backend       │
-      └──────────────┬───────────────┘
-                     │
-        ┌────────────┼─────────────┐
-        ▼            ▼             ▼
- PostgreSQL      ChromaDB     OpenRouter API
+        ┌───────────────────────────────┐
+        │   Vercel  ·  Next.js Frontend  │   https://researo.vercel.app
+        └───────────────┬───────────────┘
+                        │  REST (NEXT_PUBLIC_API_URL)
+                        ▼
+        ┌───────────────────────────────┐
+        │   Render  ·  FastAPI Backend   │   https://researo.onrender.com
+        └───────────────┬───────────────┘
+                        │
+          ┌─────────────┼──────────────┐
+          ▼             ▼              ▼
+   SQLite/Postgres   ChromaDB     OpenRouter API
 ```
 
-Deployment Platform:
+Deployment Platforms:
 
-- 🚄 Railway
+- ▲ **Vercel** — frontend (Next.js)
+- 🟢 **Render** — backend (FastAPI, Docker) *(free tier — cold starts on first hit)*
 
 Future Production Stack:
 
-- Vercel
 - Cloudflare
 - Qdrant
 - Redis
@@ -847,7 +859,7 @@ The backend follows a REST-first architecture.
 Example endpoints:
 
 ```http
-GET     /api/v1/health                      # liveness probe (Railway healthcheck)
+GET     /api/v1/health                      # liveness probe (Render healthcheck)
 GET     /api/v1/status                      # LLM / embeddings / vector-store status
 
 POST    /api/v1/documents/upload            # upload + parse + chunk + embed + index
@@ -1613,7 +1625,7 @@ to improve retrieval quality.
 | Citations | ✅ |
 | Knowledge Graph | ✅ |
 | Analytics | ✅ |
-| Railway Deployment | ✅ |
+| Live Deployment (Render + Vercel) | ✅ |
 
 ---
 
@@ -1698,7 +1710,8 @@ Huge thanks to the incredible open-source community.
 
 ### Infrastructure
 
-- Railway
+- Render (backend)
+- Vercel (frontend)
 - PostgreSQL
 - ChromaDB
 
@@ -1850,63 +1863,69 @@ cd apps/web && npm run typecheck && npm run build
 
 ---
 
-# 🚄 Deploy to Railway
+# 🚀 Deploy (Render + Vercel)
 
-Researo ships with production **Dockerfiles**, `.dockerignore` files, and
-`railway.json` configs for both services. Deploy them as **two separate
-Railway services** from the same repository.
+Researo is deployed as two apps from the same repo: the **FastAPI backend on
+Render** and the **Next.js frontend on Vercel**.
 
-## A. API service (`apps/api`)
+- **Live app:** https://researo.vercel.app
+- **Backend API:** https://researo.onrender.com
 
-1. **New Project → Deploy from GitHub repo**, then set the service **Root
-   Directory** to `apps/api`. Railway auto-detects `Dockerfile` /
-   `railway.json` (healthcheck: `/api/v1/health`).
-2. Add a **Volume** mounted at **`/data`** so the SQLite DB, vector store and
-   uploads persist across redeploys.
-3. Set service **Variables**:
+> ⏳ **Deploy order matters — do the backend first.** Render's free tier sleeps
+> when idle, so bring the API up (and note its URL) before you point the
+> frontend at it. On the live demo, open the backend link and wait ~1 minute for
+> the first cold start.
+
+## A. Backend on Render (`apps/api`)
+
+1. **New → Web Service → connect the GitHub repo.**
+2. Set **Root Directory** to `apps/api`. Render uses the included `Dockerfile`
+   automatically (healthcheck path: `/api/v1/health`).
+3. Add these **Environment** variables:
 
    ```env
    APP_ENV=production
-   CORS_ORIGINS=https://<your-web-service>.up.railway.app
-   DATABASE_URL=sqlite+aiosqlite:////data/researo.db
-   CHROMA_PERSIST_DIR=/data/chroma_store
-   UPLOAD_DIR=/data/uploads
+   CORS_ORIGINS=https://researo.vercel.app
    OPENROUTER_API_KEY=sk-or-...        # optional, enables live models
    ```
 
-   > The Dockerfile already sets these `/data` paths as defaults, so a volume at
-   > `/data` is the only hard requirement. `$PORT` is injected by Railway and
-   > honored automatically.
+   > The Dockerfile already sets sensible `/data` defaults for
+   > `DATABASE_URL`, `CHROMA_PERSIST_DIR` and `UPLOAD_DIR`, and `$PORT` is
+   > injected by Render and honored automatically.
 
-4. **(Optional) Managed Postgres:** add a Railway Postgres plugin and set
-   `DATABASE_URL` to the reference `${{Postgres.DATABASE_URL}}`. `postgres://`
-   URLs are auto-upgraded to the async `asyncpg` driver. Use Postgres if you run
-   more than one API instance (SQLite is single-instance).
+4. **(Optional) Persistent disk:** add a Render disk mounted at **`/data`** so
+   the SQLite DB, vector store and uploads survive redeploys. For multi-instance
+   setups use a managed Postgres and set `DATABASE_URL` (`postgres://` URLs are
+   auto-upgraded to the async `asyncpg` driver).
+5. Deploy, then confirm `https://<your-api>.onrender.com/api/v1/health` returns
+   `{"success":true,"status":"ok"}`. **Copy this API URL** for the next step.
 
-## B. Web service (`apps/web`)
+## B. Frontend on Vercel (`apps/web`)
 
-1. Add a **second service** in the same project with **Root Directory**
-   `apps/web`.
-2. Set the **build-time** variable (client bundle needs it at build):
+1. **Import the repo** into Vercel and set **Root Directory** to `apps/web`
+   (framework auto-detects as Next.js).
+2. Build settings (defaults are fine): Install `npm install`, Build
+   `npm run build`, Output Directory *default* (don't override).
+3. Add the **build-time** environment variable (baked into the client bundle):
 
    ```env
-   NEXT_PUBLIC_API_URL=https://<your-api-service>.up.railway.app
+   NEXT_PUBLIC_API_URL=https://researo.onrender.com
    ```
 
-   In Railway this is a normal service variable — the Dockerfile forwards it as
-   the `NEXT_PUBLIC_API_URL` build ARG.
-3. Deploy. The web image uses Next.js **standalone** output (`node server.js`)
-   and binds to `$PORT`.
+4. Deploy. The web app uses Next.js **standalone** output and works natively on
+   Vercel.
 
 ## C. Wire them together
 
-- Point the web `NEXT_PUBLIC_API_URL` at the API's public URL.
-- Set the API `CORS_ORIGINS` to the web's public URL.
-- Redeploy the web service after the API URL is known (build-time value).
+- Point the web `NEXT_PUBLIC_API_URL` at the Render API's public URL.
+- Set the API `CORS_ORIGINS` on Render to the Vercel app URL
+  (e.g. `https://researo.vercel.app`).
+- **Redeploy the frontend** after the API URL is known (it's a build-time value).
 
-> **First API deploy note:** the image bakes the embedding + reranker weights,
-> so the build is large but the first request is fast and works without runtime
-> network access.
+> **First backend deploy note:** the image bakes the embedding + reranker
+> weights, so the build is large but the first request is fast. On Render's free
+> tier the service also sleeps when idle — the first request after a while
+> triggers a ~1-minute cold start.
 
 ---
 
