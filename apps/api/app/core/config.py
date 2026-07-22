@@ -120,7 +120,10 @@ class Settings(BaseSettings):
     # Derived
     @property
     def cors_list(self) -> list[str]:
-        return [o.strip() for o in self.cors_origins.split(",") if o.strip()]
+        # Normalise: trim whitespace and drop any trailing slash, since a
+        # browser's Origin header never includes a trailing slash. This makes
+        # CORS_ORIGINS tolerant of values like "https://researo.vercel.app/".
+        return [o.strip().rstrip("/") for o in self.cors_origins.split(",") if o.strip()]
 
     @property
     def upload_path(self) -> Path:
