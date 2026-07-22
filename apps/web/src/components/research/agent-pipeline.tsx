@@ -27,25 +27,12 @@ const AGENTS: { key: string; label: string; icon: React.ComponentType<{ classNam
   { key: "Publisher", label: "Publisher", icon: FileOutput, hint: "Assembles the final report with citations" },
 ];
 
-// Deterministic sample metrics per agent. Using Math.random() here caused a
-// server/client hydration mismatch because the values differed between the
-// SSR pass and the client render. Fixed, stable numbers render identically.
-const SAMPLE_METRICS: Record<string, { duration_ms: number; tokens: number }> = {
-  Planner: { duration_ms: 820, tokens: 1420 },
-  Retriever: { duration_ms: 640, tokens: 900 },
-  Ranker: { duration_ms: 410, tokens: 700 },
-  Curator: { duration_ms: 720, tokens: 980 },
-  Analyst: { duration_ms: 1840, tokens: 3120 },
-  Validator: { duration_ms: 1240, tokens: 1810 },
-  Publisher: { duration_ms: 610, tokens: 940 },
-};
-
+// Idle placeholder before a run starts: agents shown as "waiting" with NO
+// metrics. We never fabricate durations/tokens/model — real values only ever
+// come from the backend's per-agent execution logs (passed in via `steps`).
 const DEFAULT_STATE: AgentStepView[] = AGENTS.map((a) => ({
   agent: a.key,
-  status: "completed",
-  duration_ms: SAMPLE_METRICS[a.key]?.duration_ms ?? 700,
-  tokens: SAMPLE_METRICS[a.key]?.tokens ?? 800,
-  model: "gpt-4o-mini",
+  status: "waiting",
 }));
 
 export function AgentPipeline({
