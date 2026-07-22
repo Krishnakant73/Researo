@@ -1,0 +1,274 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: "Inter", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  --color-bg: #08090b;
+  --color-bg-elev: #0d0e11;
+  --color-bg-panel: #101216;
+  --color-bg-hover: #16181d;
+  --color-border: #1e2129;
+  --color-border-strong: #2a2e39;
+  --color-fg: #e6e7ea;
+  --color-fg-dim: #a1a4ad;
+  --color-fg-muted: #6b6f7a;
+  --color-accent: #7c5cff;
+  --color-accent-strong: #6d4bff;
+  --color-accent-soft: rgba(124, 92, 255, 0.14);
+  --color-success: #23c069;
+  --color-warning: #f2b04a;
+  --color-danger: #ef4a5c;
+  --color-cyan: #4dd0ff;
+  --color-pink: #ff77b0;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+}
+
+html,
+body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  min-height: 100%;
+}
+
+*,
+*::before,
+*::after {
+  border-color: var(--color-border);
+}
+
+::selection {
+  background: rgba(124, 92, 255, 0.35);
+  color: #fff;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(1200px 700px at 8% -10%, rgba(124, 92, 255, 0.13), transparent 60%),
+    radial-gradient(900px 700px at 100% 0%, rgba(77, 208, 255, 0.08), transparent 60%),
+    radial-gradient(700px 400px at 50% 100%, rgba(255, 119, 176, 0.05), transparent 60%);
+  z-index: 0;
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #22252d; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #2d3140; }
+
+.glass {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.005));
+  backdrop-filter: blur(14px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.panel {
+  background: var(--color-bg-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.panel-elev {
+  background: linear-gradient(180deg, #101217, #0c0d10);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.hairline { border-color: var(--color-border); }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 11px;
+  color: var(--color-fg-dim);
+  line-height: 1.4;
+}
+
+.chip-accent {
+  background: var(--color-accent-soft);
+  border-color: rgba(124, 92, 255, 0.3);
+  color: #c9bcff;
+}
+
+.chip-success {
+  background: rgba(35, 192, 105, 0.12);
+  border-color: rgba(35, 192, 105, 0.3);
+  color: #6fe0a1;
+}
+
+.chip-warn {
+  background: rgba(242, 176, 74, 0.12);
+  border-color: rgba(242, 176, 74, 0.3);
+  color: #f5c37a;
+}
+
+.chip-danger {
+  background: rgba(239, 74, 92, 0.12);
+  border-color: rgba(239, 74, 92, 0.35);
+  color: #ff8894;
+}
+
+.kbd {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elev);
+  color: var(--color-fg-dim);
+  line-height: 1.2;
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid rgba(124, 92, 255, 0.55);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 0.35; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+.pulse-dot { animation: pulseDot 1.4s ease-in-out infinite; }
+
+/* Prose customisation for report content */
+.prose-researo {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--color-fg);
+}
+.prose-researo h1 { font-size: 22px; font-weight: 600; margin: 24px 0 12px; }
+.prose-researo h2 { font-size: 18px; font-weight: 600; margin: 20px 0 10px; color: #f0eefc; }
+.prose-researo h3 { font-size: 15px; font-weight: 600; margin: 18px 0 8px; color: #d9d6ea; }
+.prose-researo p { margin: 8px 0 12px; color: var(--color-fg-dim); }
+.prose-researo p strong { color: var(--color-fg); font-weight: 600; }
+.prose-researo ul { margin: 8px 0 12px; padding-left: 22px; list-style: disc; }
+.prose-researo ol { margin: 8px 0 12px; padding-left: 22px; list-style: decimal; }
+.prose-researo li { margin: 4px 0; color: var(--color-fg-dim); }
+.prose-researo li::marker { color: #6b6f7a; }
+.prose-researo code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: #16181d;
+  border: 1px solid var(--color-border);
+  color: #c9bcff;
+}
+.prose-researo blockquote {
+  border-left: 2px solid var(--color-accent);
+  padding: 4px 12px;
+  margin: 12px 0;
+  color: var(--color-fg-dim);
+  background: rgba(124, 92, 255, 0.05);
+  border-radius: 4px;
+}
+.prose-researo a { color: #a795ff; text-decoration: underline; text-underline-offset: 3px; }
+.prose-researo sup a {
+  text-decoration: none;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--color-accent-soft);
+  border: 1px solid rgba(124, 92, 255, 0.3);
+  font-size: 10px;
+  margin: 0 1px;
+  color: #c9bcff;
+}
+
+/* ------------------------------------------------------------------ */
+/* Print styles — used by the report "PDF" export (window.print()).   */
+/* Hides the app shell so only the report content is rendered, and    */
+/* flips to a light, ink-friendly palette.                             */
+/* ------------------------------------------------------------------ */
+@media print {
+  @page {
+    margin: 16mm;
+  }
+
+  /* Hide the app chrome and anything explicitly marked non-printable. */
+  aside,
+  header,
+  .no-print,
+  [data-no-print] {
+    display: none !important;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #111111 !important;
+  }
+
+  main {
+    overflow: visible !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  /* Panels become plain blocks on paper. */
+  .panel {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    break-inside: avoid;
+  }
+
+  .prose-researo,
+  .prose-researo * {
+    color: #111111 !important;
+  }
+
+  a {
+    color: #3b2fb0 !important;
+    text-decoration: none !important;
+  }
+
+  h1,
+  h2,
+  h3 {
+    color: #000000 !important;
+    break-after: avoid;
+  }
+
+  blockquote {
+    break-inside: avoid;
+  }
+}

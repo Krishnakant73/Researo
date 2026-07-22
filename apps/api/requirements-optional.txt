@@ -1,0 +1,20 @@
+# Optional dependencies for production-grade AI.
+# `pip install -r requirements-optional.txt` after the core install.
+
+# Local embeddings — set USE_LOCAL_EMBEDDINGS=true in .env once installed.
+sentence-transformers==3.3.1
+
+# ChromaDB — the production vector store (VECTOR_BACKEND=chroma, the default).
+# On Linux/macOS this installs prebuilt wheels. On Windows, chroma-hnswlib needs
+# the MSVC build tools; if it can't be installed the app automatically falls
+# back to the dependency-free NumPy vector store (set VECTOR_BACKEND=numpy to
+# silence the warning). Docker/Railway use ChromaDB.
+chromadb>=0.5,<0.6
+
+# Token counting used by LangChain models.
+tiktoken==0.8.0
+
+# LangChain + OpenAI provider (optional — the gateway already speaks the REST API directly).
+langchain==0.3.13
+langchain-openai==0.2.14
+openai==1.58.1

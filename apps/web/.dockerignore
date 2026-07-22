@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+.turbo/
+.git/
+*.log
+.env
+.env*.local
+e2e/
+playwright-report/
+test-results/
+README.md

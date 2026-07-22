@@ -1,0 +1,23 @@
+# Virtualenvs / caches
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local state — never ship the dev DB / vector store / uploads
+data/
+chroma_store/
+uploads/
+tests/_chroma_test/
+tests/_uploads_test/
+
+# Logs & env
+*.log
+.env
+.env.*
+
+# Docs / misc
+README.md

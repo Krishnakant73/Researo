@@ -1,0 +1,16 @@
+# Demo media in gif/ (Dashboard.mp4 ~27 MB, Evidence-First AI Research.gif
+# ~18.5 MB) are both under GitHub's 100 MB per-file push limit, so a normal
+# `git push` works — Git LFS is optional.
+#
+# If you'd rather keep them out of regular history, uncomment the lines below
+# and run `git lfs install` once before committing.
+# *.gif  filter=lfs diff=lfs merge=lfs -text
+# *.mp4  filter=lfs diff=lfs merge=lfs -text
+# *.mov  filter=lfs diff=lfs merge=lfs -text
+# *.webm filter=lfs diff=lfs merge=lfs -text
+
+# Treat media as binary (no line-ending/diff noise).
+*.gif  binary
+*.mp4  binary
+*.mov  binary
+*.webm binary
